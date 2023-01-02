@@ -1,0 +1,30 @@
+api_version: 3                  # Use Pico's latest API version for themes
+
+blog:
+    index_id: blog/index
+    page_size: 10
+    posts_dir: blog/posts
+    show_author: true
+    show_date: true
+    show_tags: true
+
+header:
+    nav_links:
+        Home: %base_url%/index
+        Blog: %base_url%/blog
+        Pico CMS: https://picocms.org
+    show_nav: true
+    show_site_title: true
+
+footer:
+    copyright_holder: Joe Bloggs
+    show_copyright: true
+
+meta:
+    Tags: tags
+
+twig_config:                    # Twig template engine config
+    autoescape: html            # Let Twig escape variables by default
+    strict_variables: false     # If set to true, Twig will bail out when unset variables are being used
+    charset: utf-8              # The charset used by Twig templates
+

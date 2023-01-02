@@ -1,0 +1,50 @@
+{% include '_header.twig' %}
+
+{% set index_id = pages['_theme'].meta.blog.index_id ?? config.theme_config.blog.index_id %}
+{% set posts_dir = pages['_theme'].meta.blog.posts_dir ?? config.theme_config.blog.posts_dir %}
+{% set show_author = pages['_theme'].meta.blog.show_author ?? config.theme_config.blog.show_author %}
+{% set show_date = pages['_theme'].meta.blog.show_date ?? config.theme_config.blog.show_date %}
+{% set show_tags = pages['_theme'].meta.blog.show_tags ?? config.theme_config.blog.show_tags %}
+
+<article>
+  {% if meta.title %}
+    <h1 class="headline">{{ meta.title }}</h1>
+  {% endif %}
+
+  {% if meta.author and show_author %}
+    <div class="author">{{ meta.author }}</div>
+  {% endif %}
+
+  {% if meta.date_formatted and show_date %}
+    <div class="date">{{ meta.date_formatted }}</div>
+  {% endif %}
+
+  {% if meta.tags and show_tags %}
+    <nav class="tags">
+      {% for tag in meta.tags %}
+        <a href="{{ index_id | link }}?tag={{ tag }}">#{{ tag }}</a>
+      {% endfor %}
+    </nav>
+  {% endif %}
+
+  {% if content %}
+    {{ content }}
+  {% endif %}
+</article>
+
+<nav class="paginate">
+  <span>
+    {% if previous_page.id starts with posts_dir ~ '/' and previous_page.id != index_id %}
+      <a href="{{ previous_page.url }}">« {{ previous_page.title }}</a>
+    {% endif %}
+  </span>
+
+  <span>
+    {% if next_page.id starts with posts_dir ~ '/' and next_page.id != index_id %}
+      <a href="{{ next_page.url }}">{{ next_page.title }} »</a>
+    {% endif %}
+  </span>
+</nav>
+
+{% include '_footer.twig' %}
+

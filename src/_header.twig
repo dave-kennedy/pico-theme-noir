@@ -1,0 +1,32 @@
+{% set nav_links = pages['_theme'].meta.header.nav_links ?? config.theme_config.header.nav_links %}
+{% set show_nav = pages['_theme'].meta.header.show_nav ?? config.theme_config.header.show_nav %}
+{% set show_site_title = pages['_theme'].meta.header.show_site_title ?? config.theme_config.header.show_site_title %}
+
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="{{ theme_url }}/css/normalize.css" type="text/css" />
+    <link rel="stylesheet" href="{{ theme_url }}/css/style.css" type="text/css" />
+
+    {% if meta.title %}
+      <title>{{ meta.title }} | {{ site_title }}</title>
+    {% else %}
+      <title>{{ site_title }}</title>
+    {% endif %}
+  </head>
+  <body>
+    <header>
+      {% if show_site_title %}
+        <h2>{{ site_title }}</h2>
+      {% endif %}
+
+      {% if nav_links and show_nav %}
+        <nav>
+          {% for link_text, link_url in nav_links %}
+            <a href="{{ link_url | url }}">{{ link_text }}</a>
+          {% endfor %}
+        </nav>
+      {% endif %}
+    </header>
+    <main>
+

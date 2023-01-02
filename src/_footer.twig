@@ -1,0 +1,12 @@
+{% set copyright_holder = pages['_theme'].meta.footer.copyright_holder ?? config.theme_config.footer.copyright_holder %}
+{% set show_copyright = pages['_theme'].meta.footer.show_copyright ?? config.theme_config.footer.show_copyright %}
+
+    </main>
+    <footer>
+      {% if show_copyright %}
+        &copy; {{ 'now' | date('Y') }} {{ copyright_holder }}
+      {% endif %}
+    </footer>
+  </body>
+</html>
+

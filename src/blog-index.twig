@@ -1,0 +1,94 @@
+{% include '_header.twig' %}
+
+{% set posts_dir = pages['_theme'].meta.blog.posts_dir ?? config.theme_config.blog.posts_dir %}
+{% set posts = pages(posts_dir) | filter(p => not p.hidden) %}
+{% set filter_tag = url_param('tag', 'string') | trim %}
+
+{% if filter_tag %}
+  {% set posts = posts | filter(p => filter_tag in p.meta.tags) %}
+{% endif %}
+
+{% set page_num = url_param('page', 'int', 1) %}
+{% set page_size = pages['_theme'].meta.blog.page_size ?? config.theme_config.blog.page_size %}
+{% set first_post = (page_num - 1) * page_size %}
+{% set index_id = pages['_theme'].meta.blog.index_id ?? config.theme_config.blog.index_id %}
+
+{% if page_num > 1 %}
+  {% set prev_url = index_id | link ~ '?page=' ~ (page_num - 1) %}
+
+  {% if filter_tag %}
+    {% set prev_url = prev_url ~ '&tag=' ~ filter_tag %}
+  {% endif %}
+{% endif %}
+
+{% set total_posts = posts | length %}
+{% set total_pages = (total_posts / page_size) | round(0, 'ceil') %}
+
+{% if page_num < total_pages %}
+  {% set next_url = index_id | link ~ '?page=' ~ (page_num + 1) %}
+
+  {% if filter_tag %}
+    {% set next_url = next_url ~ '&tag=' ~ filter_tag %}
+  {% endif %}
+{% endif %}
+
+{% set show_author = pages['_theme'].meta.blog.show_author ?? config.theme_config.blog.show_author %}
+{% set show_date = pages['_theme'].meta.blog.show_date ?? config.theme_config.blog.show_date %}
+{% set show_tags = pages['_theme'].meta.blog.show_tags ?? config.theme_config.blog.show_tags %}
+
+{% if filter_tag %}
+  <h1>Posts tagged with {{ filter_tag }}</h1>
+{% elseif meta.title %}
+  <h1>{{ meta.title }}</h1>
+{% endif %}
+
+{% if content %}
+  {{ content }}
+{% endif %}
+
+<div class="posts">
+  {% for post in posts | reverse | slice(first_post, page_size) %}
+    <article>
+      {% if post.url and post.title %}
+        <h3>
+          <a href="{{ post.url }}">{{ post.title }}</a>
+        </h3>
+      {% endif %}
+
+      {% if post.author and show_author %}
+        <div class="author">{{ post.author }}</div>
+      {% endif %}
+
+      {% if post.date_formatted and show_date %}
+        <div class="date">{{ post.date_formatted }}</div>
+      {% endif %}
+
+      {% if post.meta.tags and show_tags %}
+        <nav class="tags">
+          {% for tag in post.meta.tags %}
+            <a href="{{ index_id | link }}?tag={{ tag }}">#{{ tag }}</a>
+          {% endfor %}
+        </nav>
+      {% endif %}
+    </article>
+  {% endfor %}
+</div>
+
+<nav class="paginate">
+  <span>
+    {% if prev_url %}
+      <a href="{{ prev_url }}">« Page {{ page_num - 1 }}</a>
+    {% endif %}
+  </span>
+
+  <span>Page {{ page_num }} of {{ total_pages }}</span>
+
+  <span>
+    {% if next_url %}
+      <a href="{{ next_url }}">Page {{ page_num + 1 }} »</a>
+    {% endif %}
+  </span>
+</nav>
+
+{% include '_footer.twig' %}
+

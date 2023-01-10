@@ -75,15 +75,15 @@
 </div>
 
 <nav class="paginate">
-  <span>
+  <span class="current">Page {{ page_num }} of {{ total_pages }}</span>
+
+  <span class="prev">
     {% if prev_url %}
       <a href="{{ prev_url }}">« Page {{ page_num - 1 }}</a>
     {% endif %}
   </span>
 
-  <span>Page {{ page_num }} of {{ total_pages }}</span>
-
-  <span>
+  <span class="next">
     {% if next_url %}
       <a href="{{ next_url }}">Page {{ page_num + 1 }} »</a>
     {% endif %}

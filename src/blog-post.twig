@@ -33,13 +33,13 @@
 </article>
 
 <nav class="paginate">
-  <span>
+  <span class="prev">
     {% if previous_page.id starts with posts_dir ~ '/' and previous_page.id != index_id %}
       <a href="{{ previous_page.url }}">« {{ previous_page.title }}</a>
     {% endif %}
   </span>
 
-  <span>
+  <span class="next">
     {% if next_page.id starts with posts_dir ~ '/' and next_page.id != index_id %}
       <a href="{{ next_page.url }}">{{ next_page.title }} »</a>
     {% endif %}

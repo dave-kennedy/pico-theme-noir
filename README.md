@@ -1,5 +1,9 @@
 # Noir Theme for Pico CMS
 
+![Blog post](previews/1.png)
+
+![Mobile view](previews/2.png)
+
 > Depending on your server, you might need to run the following commands with elevated permissions.
 
 > In each of the following commands, replace PICO_DIR with your Pico installation directory, e.g.

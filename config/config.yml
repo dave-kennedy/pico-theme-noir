@@ -1,0 +1,11 @@
+##
+# Theme
+#
+theme: noir
+
+##
+# Content
+#
+date_format: %B %e, %Y
+pages_order_by: date
+
